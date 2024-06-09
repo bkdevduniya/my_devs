@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        header{
+            background-image:url('calculator.jpg');
+            background-blend-mode: color;
+            background-repeat:no-repeat;
+            padding-top:14vh;
+            padding-bottom:14vh;
+            margin-bottom:5vh;
+            width:100vw;
+            background-size:cover;
+            text-align:center;
+            font-family: fantasy;
+            font-size: 4.5em;
+            color:antiquewhite;
+            font-weight: lighter;
+        }
+
+        body{
+            background-image:radial-gradient(circle farthest-corner at 30% 70%,rgb(187, 177, 177),rgb(105, 105, 125),rgb(106, 106, 159),rgb(38, 37, 37));
+            
+        }
+
+        #calculator{
+            position:relative;
+            left:5%;
+            display:inline-flexbox;
+            height:65vh;
+            width:40vw;
+            border:solid 2px black;
+            outline: solid 1px black;
+            outline-offset:2px;
+            background-color:gray;
+        }
+
+        #in{
+            width:95%;
+            height:20%;
+            text-align:right;
+            background-color: white;
+            color:black;
+            margin-bottom:3%;
+            font-size:x-large;
+        }
+
+        #clear{
+            margin:2%;
+            width:42%;
+            height:10%;
+            text-align:center;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-size: larger;
+            font-weight: lighter;
+            color:white;
+            transform:translateZ(5px);
+            background-color: black;
+        }
+
+        #d0,#d1,#d2,#d3,#d4,#d5,#d6,#d7,#d8,#d9,#p,#mi,#mul,#div,#br_o,#br_c{
+            margin:2%;
+            width:18%;
+            height:10%;
+            text-align:center;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-size: larger;
+            font-weight: lighter;
+            color:white;
+            transform:translateZ(5px);
+            background-color: black;
+        }
+
+        #re{
+            margin:2%;
+            width:42%;
+            height:10%;
+            text-align:center;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-size: larger;
+            font-weight: lighter;
+            color:white;
+            transform:translateZ(5px);
+            background-color: black;
+        }
+        p{
+         display:inline-block;
+         position:absolute;
+         top:65vh;
+         right:2%;
+          width:40%;
+          height:25vh;
+          color:white;
+          overflow-x:hidden;
+          font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+          font-size:2em;
+          word-wrap: break-word;
+          word-break:normal;
+        }
+         
+        footer{
+      margin-top:4%;
+      text-align:center;
+      font-size:2em;
+      color:antiquewhite;
+      font-family:'Courier New', Courier, monospace;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <header>
+        simple cal_c
+    </header>
+    <div id="calculator">  
+        <input name="inp" id="in" type="text" onkeydown="re(event,inp)">
+      
+        <button id="d0">0</button> <button id="d1">1</button>  <button id="d2">2</button>   <button id="p">+</button>  <button id ="d3">3</button>  <button id="d4">4</button>  <button id="d5">5</button>   <button id="mi">-</button>   <button id="d6">6</button>  <button id="d7">7</button> <button id="d8">8</button> 
+         <button id="mul">*</button>  <button id="d9">9</button>  <button id="br_o"></button>  <button id="br_c"></button>
+           <button id="div">/</button> 
+        <button id="re">=</button>  <button id="clear"> cr </button>
+        </div>
+    <p> it's a simple arithematic claculator with a rounded off result upto 10 decimal places</p>
+    
+<script>
+let br_o=document.getElementById("br_o");
+let br_c=document.getElementById("br_c");
+br_o.innerHTML="(";
+br_c.innerHTML=")";
+const a_0=document.getElementById("d0"),a_1=document.getElementById("d1"),a_2=document.getElementById("d2"),
+a_3=document.getElementById("d3"),a_4=document.getElementById("d4"),a_5=document.getElementById("d5"),a_6=document.getElementById("d6"),
+a_7=document.getElementById("d7"),a_8=document.getElementById("d8"),a_9=document.getElementById("d9"),a_=document.getElementById("d0");
+let eq=document.getElementById("re"),div=document.getElementById("div"),add=document.getElementById("p"),
+sub=document.getElementById("mi"),mul=document.getElementById("mul");
+
+ let inp = document.getElementById("in"),cr=document.getElementById("clear");
+inp.placeholder="type here...";
+ function fun( x, y){
+    y.value+=x.firstChild.nodeValue;
+}
+
+function reset(inp){
+inp.value='';
+}
+function cal(x){
+    class Stack {
+    constructor(size) {
+        this.top = -1;
+        this.capacity = size;
+        this.arr = new Array(size);
+    }
+
+    isFull() {
+        return this.top === this.capacity - 1;
+    }
+
+    isEmpty() {
+        return this.top === -1;
+    }
+
+    pop() {
+        if (this.isEmpty()) {
+            return null;
+        }
+        const data = this.arr[this.top];
+        this.top--;
+        return data;
+    }
+
+    push(val) {
+        if (this.isFull()) {
+            return;
+        } else {
+            this.top++;
+            this.arr[this.top] = val;
+        }
+    }
+
+    peep() {
+        if (this.isEmpty()) {
+            return null;
+        }
+        return this.arr[this.top];
+    }
+
+    update(val) {
+        if (this.isEmpty()) {
+            return;
+        }
+        this.arr[this.top] = val;
+    }
+}
+
+function toPostfix(s) {
+    let s2 ='',s3='';
+    
+    s=s.split("");
+    let n=s.length;
+    let check=0;
+    for(let i=0;i<n;i++){
+        if(s[i]==='('&&s[i-1]!=='+'&&s[i-1]!=='-'&&s[i-1]!=='*'&&s[i-1]!=='/'&&s[i-1]!=='('&&i>0){
+            s.splice(i,0,'*');
+        }
+        if(s[i]===')'&&s[i+1]!=='+'&&s[i+1]!=='-'&&s[i+1]!=='*'&&s[i+1]!=='/'&&s[i+1]!==')'&&i<n-1){
+            s.splice(i+1,0,'*');
+    }
+    if(s[i]==='('){
+        check++;
+    }
+    if(s[i]===')'){
+        check--;
+    }
+    n=s.length;
+    }
+   if((check!==0)){
+    return 'invalid expression!';
+   }
+    for(let i=0;i<n;i++){
+        if(s[i]==='+'||s[i]==='-'||s[i]==='*'||s[i]==='/'||s[i]===')'){
+            s3+=',';
+        }
+            s3+=s[i];
+    }
+    let m=s3.length;
+    if(s3[m-1]>='0'&&s3[m-1]<='9'){
+        s3+=',';
+    }
+    m=s3.length;
+    const a = new Stack(m);
+    for (let i = 0; i < m; i++) {
+        if(s3[i]!==" "){
+
+        if ((s3[i] > '9' || s3[i] < '0') && a.isEmpty()&&s3[i]!==',') {
+            a.push(s3[i]);
+        } else if (s3[i] === '-' || s3[i] === '+') {
+            while (!a.isEmpty() && (a.peep() === '/' || a.peep() === '*' || a.peep() === '-' || a.peep() === '+')) {
+                s2 += a.pop();
+            }
+            a.push(s3[i]);
+        } else if (s3[i] === '*' || s3[i] === '/') {
+            while (!a.isEmpty() && (a.peep() === '*' || a.peep() === '/')) {
+                s2 += a.pop();
+            }
+            a.push(s3[i]);
+        } else if (s3[i] === ')') {
+            while (a.peep() !== '(') {
+                s2 += a.pop();
+            }
+            if (!a.isEmpty()) {
+                a.pop();
+            }
+        } else if (s3[i] === '(') {
+            a.push(s3[i]);
+        } else {
+            s2 += s3[i];
+        }
+    }
+    }
+    while (!a.isEmpty()) {
+        s2 += a.pop();
+    }
+    return s2;
+}
+const z = toPostfix(String(x.value));
+
+
+
+function evaluatePostfix(expression) {
+    if(expression=='invalid expression!'){
+        return expression;
+    }
+    const n = expression.length;
+    let x, y;
+    const stack = new Stack(n);
+
+    for (let i = 0; i < n; i++) {
+        if (expression[i] === '+') {
+            const x=stack.pop();
+            const y=stack.pop();
+            stack.push(x+y);
+        } else if (expression[i] === '-') {
+            const x=stack.pop();
+            const y=stack.pop();
+            stack.push(y-x);
+        } else if (expression[i] === '*') {
+            const x=stack.pop();
+            const y=stack.pop();
+            stack.push(x*y);
+        } else if (expression[i] === '/') {
+            const x=stack.pop();
+            const y=stack.pop();
+            stack.push(y/x);
+        } else if(expression[i]!==','){
+            let x='';
+            while(expression[i]!==','){
+                x+=expression[i];
+                i++;
+            }
+            stack.push(Number(x));
+        }
+    }
+    let re=stack.pop();
+    if(stack.isEmpty())
+    return re.toFixed(10);
+    else 
+    return "invalid expression!";
+}
+
+x.value=evaluatePostfix(z);
+}
+
+function re(event,inp){
+    let x=event.key;
+    if(x=='Enter'){
+        cal(inp);
+    }
+}
+a_0.addEventListener("click",function(){fun(a_0,inp);});
+a_1.addEventListener("click",function(){fun(a_1,inp);});
+a_2.addEventListener("click",function(){fun(a_2,inp);});
+a_3.addEventListener("click",function(){fun(a_3,inp);});
+a_4.addEventListener("click",function(){fun(a_4,inp);});
+a_5.addEventListener("click",function(){fun(a_5,inp);});
+a_6.addEventListener("click",function(){fun(a_6,inp);});
+a_7.addEventListener("click",function(){fun(a_7,inp);});
+a_8.addEventListener("click",function(){fun(a_8,inp);});
+a_9.addEventListener("click",function(){fun(a_9,inp);});
+br_o.addEventListener("click",function(){fun(br_o,inp);});
+br_c.addEventListener("click",function(){fun(br_c,inp);});
+add.addEventListener("click",function(){fun(add,inp);});
+sub.addEventListener("click",function(){fun(sub,inp);});
+mul.addEventListener("click",function(){fun(mul,inp);});
+div.addEventListener("click",function(){fun(div,inp);});
+eq.addEventListener("click",function(){cal(inp);});
+cr.addEventListener("click",function(){reset(inp);});
+</script>
+<hr>
+<footer>
+contact us at <br>  bhoodev6232@gmail.com
+    &  7878186751
+    
+</footer>
+
+</body>
+</html>
